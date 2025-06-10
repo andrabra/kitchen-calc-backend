@@ -7,7 +7,7 @@ const app = express();
 const corsOptions = {
   origin: [
     'https://andrabra.github.io',
-    'http://localhost:3000'
+    'http://localhost:5173'
   ],
   optionsSuccessStatus: 200
 };
