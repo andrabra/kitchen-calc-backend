@@ -14,6 +14,7 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
+// Эндпоинт для случайных рецептов
 app.get('/api/recipes', async (req, res) => {
   const { number } = req.query;
 
@@ -29,6 +30,32 @@ app.get('/api/recipes', async (req, res) => {
   } catch (error) {
     console.error('Ошибка при получении рецептов:', error.message);
     res.status(500).json({ error: 'Ошибка при получении рецептов' });
+  }
+});
+
+// Новый эндпоинт для поиска рецептов
+app.get('/api/recipes/search', async (req, res) => {
+  const { query, number, offset, diet, cuisine, type } = req.query;
+
+  try {
+    const response = await axios.get('https://api.spoonacular.com/recipes/complexSearch', {
+      params: {
+        apiKey: process.env.SPOONACULAR_API_KEY,
+        query: query || '',
+        number: number || 10,
+        offset: offset || 0,
+        diet: diet || '',
+        cuisine: cuisine || '',
+        type: type || '',
+        instructionsRequired: true,
+        addRecipeInformation: true
+      },
+    });
+
+    res.json({ results: response.data.results, totalResults: response.data.totalResults });
+  } catch (error) {
+    console.error('Ошибка при поиске рецептов:', error.message);
+    res.status(500).json({ error: 'Ошибка при поиске рецептов' });
   }
 });
 
