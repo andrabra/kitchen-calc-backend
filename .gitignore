@@ -1,0 +1,11 @@
+# Не коммитить настройки окружения
+.env
+
+# Node.js
+node_modules/
+npm-debug.log
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
